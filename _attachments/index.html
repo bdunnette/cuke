@@ -53,20 +53,18 @@
       </div>
     </div>
 
-    <h3>Guest book entries <small>(click for detail)</small></h3>
+    <h3>Available Tracks <small>(click for detail)</small></h3>
     <table class="table table-striped">
       <thead>
         <tr>
           <th>UTC</th>
           <th>URL</th>
-          <th>By</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="row in cukedb.rows" ng-click="rowClick($index)">
-          <td class="span2">{{ row.key }}</td>
-          <td class="span6">{{ row.doc.url }}</td>
-          <td class="span2">{{ row.doc.alias }}</td>
+          <td>{{ row.key }}</td>
+          <td>{{ row.doc.url }}</td>
         </tr>
       </tbody>
     </table>
