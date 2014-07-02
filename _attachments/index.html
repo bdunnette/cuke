@@ -4,11 +4,11 @@
 <head>
   <title>CornerCouch guestbook sample</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body style="padding-top: 10px">
-  <div class="container" ng-controller="ctrlImReq">
+  <div class="container" ng-controller="ctrlCuke">
     <h2>AngularJS/CouchDB + CornerCouch Guestbook</h2>
     <h4>Login form (try testuser/secret and get lots of information)</h4>
     <form class='form-inline' name='loginForm' ng-submit="submitLogin()">
@@ -26,7 +26,7 @@
       <pre>server.databases = {{ server.databases | json }}</pre>
       <pre>server.uuids = {{ server.uuids | json }}</pre>
       <pre>server.userDoc = {{ server.userDoc | json }}</pre>
-      <pre>imreqdb.info = {{ imreqdb.info | json }}</pre>
+      <pre>cukedb.info = {{ cukedb.info | json }}</pre>
     </div>
     <small>
         Visit the <a href="https://github.com/eddelplus/cornercouch" target="_blank">GitHub</a> project
@@ -42,7 +42,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="row in imreqdb.rows" ng-click="rowClick($index)">
+        <tr ng-repeat="row in cukedb.rows" ng-click="rowClick($index)">
           <td class="span2">{{ row.key }}</td>
           <td class="span6">{{ row.doc.subject }}</td>
           <td class="span2">{{ row.doc.alias }}</td>
@@ -50,11 +50,11 @@
       </tbody>
     </table>
     <ul class="pager">
-      <li><a ng-class="{muted: imreqdb.queryActive}" ng-click="prevClick()" ng-show="imreqdb.prevRows.length">Newer</a>
+      <li><a ng-class="{muted: cukedb.queryActive}" ng-click="prevClick()" ng-show="cukedb.prevRows.length">Newer</a>
       </li>
-      <li><a ng-class="{muted: imreqdb.queryActive}" ng-click="nextClick()" ng-show="imreqdb.nextRow">Older</a>
+      <li><a ng-class="{muted: cukedb.queryActive}" ng-click="nextClick()" ng-show="cukedb.nextRow">Older</a>
       </li>
-      <li><a ng-class="{muted: imreqdb.queryActive}" ng-click="moreClick()" ng-show="imreqdb.nextRow">More...</a>
+      <li><a ng-class="{muted: cukedb.queryActive}" ng-click="moreClick()" ng-show="cukedb.nextRow">More...</a>
       </li>
     </ul>
     <div class="alert alert-info" ng-show="detail._id">
@@ -98,8 +98,12 @@
       <button class="submit" ng-disabled="formNewEntry.$invalid">Submit</button>
     </form>
   </div>
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/angular/angular.min.js"></script>
   <script src="bower_components/CornerCouch/angular-cornercouch.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" </script>
+    < script src = "bower_components/angular-media-player/dist/angular-media-player.min.js" >
+  </script>
   <script src="script/app.js"></script>
   < /body>
 

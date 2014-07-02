@@ -1,4 +1,4 @@
-imreq-couch
+cuke
 ===========
 
 Install with 
