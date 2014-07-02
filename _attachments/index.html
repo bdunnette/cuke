@@ -9,42 +9,63 @@
 
 <body style="padding-top: 10px">
   <div class="container" ng-controller="ctrlCuke">
-    <h2>AngularJS/CouchDB + CornerCouch Guestbook</h2>
-    <h4>Login form (try testuser/secret and get lots of information)</h4>
-    <form class='form-inline' name='loginForm' ng-submit="submitLogin()">
-      Name
-      <input type='text' name='user' ng-model='loginUser' required>&nbsp; Password
-      <input type='password' name='pass' ng-model='loginPass' required>&nbsp;
-      <button class='btn' type="submit">Login</button>&nbsp;
-    </form>
-    <div class="alert alert-info" ng-show='showInfo'>
-      <button class='btn' ng-click='server.logout()'>Logout</button>
-      <br>
-      <br>
-      <pre>server.userCtx = {{ server.userCtx | json }}</pre>
-      <pre>server.info = {{ server.info | json }}</pre>
-      <pre>server.databases = {{ server.databases | json }}</pre>
-      <pre>server.uuids = {{ server.uuids | json }}</pre>
-      <pre>server.userDoc = {{ server.userDoc | json }}</pre>
-      <pre>cukedb.info = {{ cukedb.info | json }}</pre>
+
+    <audio media-player="mediaPlayer" playlist="playlist1" autoplay=true>
+      <source src="http://freemusicarchive.org/music/download/361f26606f79cb6c04782b7a9f66d6eb47c257b1" type="audio/mp3">
+    </audio>
+
+    <div class="player-control">
+      <div class="btn" ng-click="mediaPlayer.play()">
+        <span>Simple Play</span>
+        <i class="fa fa-play"></i>
+      </div>
+      <div class="btn" ng-click="mediaPlayer.playPause()">
+        <i class="fa" ng-class="{ 'fa-pause': mediaPlayer.playing, 'fa-play': !mediaPlayer.playing }"></i>
+      </div>
+      <div class="btn" ng-click="mediaPlayer.next()">
+        <span>Next</span>
+        <i class="fa fa-step-forward"></i>
+      </div>
+      <div class="btn" ng-click="mediaPlayer.prev()">
+        <i class="fa fa-step-backward"></i>
+        <span>Prev</span>
+      </div>
+      <div class="btn btn-noclick">
+        <span>currentTrack: <span class="badge">[[ mediaPlayer.currentTrack ]]</span></span>
+      </div>
+      <div class="btn btn-noclick">
+        <span><i class="fa fa-clock-o"></i>: <span class="badge">[[ mediaPlayer.formatTime ]]</span></span>
+      </div>
+      <div class="btn btn-noclick">
+        <span>volume: <span class="badge">[[ mediaPlayer.volume * 100 | number:0 ]]%</span></span>
+      </div>
+      <div class="btn" ng-click="mediaPlayer.setVolume(mediaPlayer.volume - 0.1)">
+        <span><i class="fa fa-volume-down"></i></span>
+      </div>
+      <div class="btn" ng-click="mediaPlayer.setVolume(mediaPlayer.volume + 0.1)">
+        <span><i class="fa fa-volume-up"></i></span>
+      </div>
+      <div class="progress" ng-click="mediaPlayer.seek(mediaPlayer.duration * seekPercentage($event))">
+        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" ng-style="{ width: mediaPlayer.currentTime*100/mediaPlayer.duration + '%' }"></div>
+        <div class="time" ng-show="mediaPlayer.formatTime">
+          <span>[[ mediaPlayer.formatTime ]]</span><b>/</b><span>[[ mediaPlayer.formatDuration ]]</span>
+        </div>
+      </div>
     </div>
-    <small>
-        Visit the <a href="https://github.com/eddelplus/cornercouch" target="_blank">GitHub</a> project
-        and and my <a href="http://eddelbuettel.net/html5" target="_blank">Homepage</a>
-    </small>
+
     <h3>Guest book entries <small>(click for detail)</small></h3>
     <table class="table table-striped">
       <thead>
         <tr>
           <th>UTC</th>
-          <th>Subject</th>
+          <th>URL</th>
           <th>By</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="row in cukedb.rows" ng-click="rowClick($index)">
           <td class="span2">{{ row.key }}</td>
-          <td class="span6">{{ row.doc.subject }}</td>
+          <td class="span6">{{ row.doc.url }}</td>
           <td class="span2">{{ row.doc.alias }}</td>
         </tr>
       </tbody>
@@ -82,29 +103,22 @@
       </form>
     </div>
     <div class="alert alert-error" ng-show="errordata">{{ errordata | json }}</div>
-    <form name="formNewEntry" class="offset1 span9" ng-submit="submitEntry()">
-      <fieldset>
-        <legend>New guestbook entry</legend>
-        <label>An alias of your own choice (required)</label>
-        <input type="text" class="span4" ng-model="newentry.alias" required>
-        <label>Your mail address (not shown, but available via FireBug)</label>
-        <input type="email" class="span4" ng-model="newentry.email">
-        <label>Your subject line (required)</label>
-        <input type="text" class="span9" ng-model="newentry.subject" required>
-        <label>Your message</label>
-        <textarea rows="5" class="span9" ng-model="newentry.body"></textarea>
-      </fieldset>
-      <label>Submit your entry here</label>
-      <button class="submit" ng-disabled="formNewEntry.$invalid">Submit</button>
+    <form name="formNewEntry" role="form" ng-submit="submitEntry()">
+      <input name="url" type="url" ng-model="newentry.url" required>
+      <div class="form-group">
+        <label for="submitTrack">Submit your entry here</label>
+        <button id="submitTrack" class="submit" ng-disabled="formNewEntry.$invalid">Submit</button>
+      </div>
     </form>
   </div>
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/angular/angular.min.js"></script>
   <script src="bower_components/CornerCouch/angular-cornercouch.js"></script>
-  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" </script>
-    < script src = "bower_components/angular-media-player/dist/angular-media-player.min.js" >
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js">
+  </script>
+  <script src="bower_components/angular-media-player/dist/angular-media-player.min.js">
   </script>
   <script src="script/app.js"></script>
-  < /body>
+</body>
 
 </html>

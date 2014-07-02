@@ -1,4 +1,4 @@
-    angular.module('CouchApp', ['CornerCouch']);
+    angular.module('CouchApp', ['CornerCouch', 'mediaPlayer']);
 
     function ctrlCuke($scope, $filter, cornercouch) {
 
